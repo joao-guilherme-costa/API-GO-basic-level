@@ -1,34 +1,37 @@
 package controller
 
+// Aqui criamos o controle que vai receber a requisição
+// essa parte serve tanto para receber a requisição como para tratar ela e apresentar uma response
 import (
-	"go-api/model"
+	"go-api/usecase"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
+//criamos a estrutura para o controle
+
 type productController struct {
-	//Usecase
+	productUseCase  usecase.ProductUsecase
 }
 
-func NewProductController() productController {
-
-	return productController{}
-
-}
-
-func (p *productController) GetProducts(ctx *gin.Context){
 
 
-	products := []model.Product{
-		{
+func NewProductController( usecase usecase.ProductUsecase) productController {
 
-			ID : 1,
-			Name: "Batata frita",
-			Price: 20,
-
-		},
+	return productController{
+			productUseCase: usecase,
 	}
 
+}
+//Função the FATO que vai tratar a requisição 
+func (p *productController) GetProducts(ctx *gin.Context){
+
+	products, err := p.productUseCase.GetProducts()
+	if (err != nil) {
+
+		ctx.JSON(http.StatusInternalServerError, err)
+	}
+	
 	ctx.JSON(http.StatusOK,products)
 }
