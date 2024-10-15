@@ -31,8 +31,14 @@ func main() {
 	ProductController := controller.NewProductController(ProductUseCase)
 
 	
-	 server.GET("/products",ProductController.GetProducts)
+	server.GET("/products",ProductController.GetProducts)
+	server.POST("/product",ProductController.CreateProduct)
+	server.GET("/product/:productId",ProductController.GetProductbyId)
+	//criar rotas de put e delete e adicionar autenticação jwt 
 	server.Run(":8080")
 	
 }
+
+
+
 
