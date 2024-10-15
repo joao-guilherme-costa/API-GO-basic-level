@@ -6,12 +6,13 @@ import (
 	"go-api/model"
 )
 
+//estrutura usada para executar queries qsl
 type ProductRepository struct {
-	connection *sql.DB
+	connection *sql.DB //o uso de ponteiro é  para manter uma unica conexão reutilizável
 }
 
 
-
+// é um construtor, recebe a conexão com o banco e retorna uma instância de Productrepository permitindo que crie objetos de forma simples e reutiliza a conexão com o banco de dados 
 func NewProductRepository (connection *sql.DB) ProductRepository{
 	return ProductRepository {
 		connection: connection,
